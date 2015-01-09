@@ -924,9 +924,14 @@ void rtl92ee_tx_fill_desc(struct ieee80211_hw *hw,
 			SET_TX_DESC_OFFSET(pdesc, USB_HWDESC_HEADER_LEN);
 		}
 
-		//SET_TX_DESC_TX_RATE(pdesc, ptcb_desc->hw_rate);
-                SET_TX_DESC_TX_RATE(pdesc, rtlpriv->cfg->maps[RTL_RC_OFDM_RATE54M]);
-                //ptcb_desc->hw_rate);
+
+                if (ptcb_desc->hw_rate > DESC92C_RATE54M){
+                  SET_TX_DESC_TX_RATE(pdesc, DESC92C_RATE54M);
+                }
+                else{
+                  SET_TX_DESC_TX_RATE(pdesc, ptcb_desc->hw_rate);
+                }
+                  //SET_TX_DESC_TX_RATE(pdesc, rtlpriv->cfg->maps[RTL_RC_OFDM_RATE54M]);
 
 		if (ieee80211_is_mgmt(fc)) {
 			ptcb_desc->use_driver_rate = true;
